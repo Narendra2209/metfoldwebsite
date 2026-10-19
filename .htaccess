@@ -1,0 +1,35 @@
+# Metfold Sheet Metal — Apache settings for the static site
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+AddType image/webp .webp
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Always use https and the non-www domain
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://metfoldsm.com.au%{REQUEST_URI} [L,R=301]
+  # Old WordPress page addresses -> new pages (keeps search rankings)
+  RewriteRule ^about-us-2/?$ /trusted-metal-roofing-supplier.html [R=301,L]
+  RewriteRule ^(trusted-metal-roofing-supplier|colorbond-flashings-suppliers-in-melbourne|architectural-metal-cladding-suppliers|standingseam-metalcladding|snaplock-metalcladding|interlocking-metal-cladding|nailstrip-metal-cladding|roofing-cladding|colorbond-roof-sheets|fascia-gutter|polycarbonate-roof-sheets|colorbond-downpipes|rainheads-and-sumps-rainwater-goods|dambuster-products|rainheads-dambuster|sumps-dambuster|side-outlets-dambuster|junctions-elbows-dambuster|custom-fabrication|heavy-gauge|material-range|laser-cutting-services|roofing-accessories|roof-accessories|order-forms|contact-us|privacy-policy|privacy-policy-metfold-app|shop|cart|checkout|my-account|blog|architectural-metal-cladding-trends-in-2025|dam-buster-sizing-cheat-sheet-for-melbourne-roofers)/?$ /$1.html [R=301,L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml text/xml text/plain
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType application/xml "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
